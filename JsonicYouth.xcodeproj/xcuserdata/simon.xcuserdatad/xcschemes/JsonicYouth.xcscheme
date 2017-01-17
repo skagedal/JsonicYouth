@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F4BE0D8E1E2E9A9200B8F361"
+               BuildableName = "JsonicYouthTests.xctest"
+               BlueprintName = "JsonicYouthTests"
+               ReferencedContainer = "container:JsonicYouth.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "F4BE0D761E2E98A700B8F361"
+            BuildableName = "JsonicYouth.framework"
+            BlueprintName = "JsonicYouth"
+            ReferencedContainer = "container:JsonicYouth.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

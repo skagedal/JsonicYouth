@@ -8,12 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		F4BE0D7C1E2E98A700B8F361 /* JsonicYouth.h in Headers */ = {isa = PBXBuildFile; fileRef = F4BE0D7A1E2E98A700B8F361 /* JsonicYouth.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4BE0D871E2E99F800B8F361 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE0D831E2E99F800B8F361 /* JSONParser.swift */; };
+		F4BE0D881E2E99F800B8F361 /* JSONLexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE0D841E2E99F800B8F361 /* JSONLexer.swift */; };
+		F4BE0D891E2E99F800B8F361 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE0D851E2E99F800B8F361 /* JSONError.swift */; };
+		F4BE0D8A1E2E99F800B8F361 /* TextPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE0D861E2E99F800B8F361 /* TextPosition.swift */; };
+		F4BE0D941E2E9A9200B8F361 /* JsonicYouth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4BE0D771E2E98A700B8F361 /* JsonicYouth.framework */; };
+		F4BE0D9B1E2E9B0D00B8F361 /* JSONLexerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BE0D9A1E2E9B0D00B8F361 /* JSONLexerTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F4BE0D951E2E9A9200B8F361 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F4BE0D6E1E2E98A700B8F361 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4BE0D761E2E98A700B8F361;
+			remoteInfo = JsonicYouth;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F4BE0D771E2E98A700B8F361 /* JsonicYouth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JsonicYouth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4BE0D7A1E2E98A700B8F361 /* JsonicYouth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JsonicYouth.h; sourceTree = "<group>"; };
 		F4BE0D7B1E2E98A700B8F361 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4BE0D831E2E99F800B8F361 /* JSONParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		F4BE0D841E2E99F800B8F361 /* JSONLexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONLexer.swift; sourceTree = "<group>"; };
+		F4BE0D851E2E99F800B8F361 /* JSONError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
+		F4BE0D861E2E99F800B8F361 /* TextPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPosition.swift; sourceTree = "<group>"; };
+		F4BE0D8F1E2E9A9200B8F361 /* JsonicYouthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JsonicYouthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BE0D931E2E9A9200B8F361 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F4BE0D9A1E2E9B0D00B8F361 /* JSONLexerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONLexerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +47,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F4BE0D8C1E2E9A9200B8F361 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BE0D941E2E9A9200B8F361 /* JsonicYouth.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -31,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				F4BE0D791E2E98A700B8F361 /* JsonicYouth */,
+				F4BE0D901E2E9A9200B8F361 /* JsonicYouthTests */,
 				F4BE0D781E2E98A700B8F361 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				F4BE0D771E2E98A700B8F361 /* JsonicYouth.framework */,
+				F4BE0D8F1E2E9A9200B8F361 /* JsonicYouthTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -46,10 +79,31 @@
 		F4BE0D791E2E98A700B8F361 /* JsonicYouth */ = {
 			isa = PBXGroup;
 			children = (
+				F4BE0D831E2E99F800B8F361 /* JSONParser.swift */,
+				F4BE0D841E2E99F800B8F361 /* JSONLexer.swift */,
+				F4BE0D851E2E99F800B8F361 /* JSONError.swift */,
+				F4BE0D861E2E99F800B8F361 /* TextPosition.swift */,
+				F4BE0D821E2E99CC00B8F361 /* Framework */,
+			);
+			path = JsonicYouth;
+			sourceTree = "<group>";
+		};
+		F4BE0D821E2E99CC00B8F361 /* Framework */ = {
+			isa = PBXGroup;
+			children = (
 				F4BE0D7A1E2E98A700B8F361 /* JsonicYouth.h */,
 				F4BE0D7B1E2E98A700B8F361 /* Info.plist */,
 			);
-			path = JsonicYouth;
+			name = Framework;
+			sourceTree = "<group>";
+		};
+		F4BE0D901E2E9A9200B8F361 /* JsonicYouthTests */ = {
+			isa = PBXGroup;
+			children = (
+				F4BE0D931E2E9A9200B8F361 /* Info.plist */,
+				F4BE0D9A1E2E9B0D00B8F361 /* JSONLexerTests.swift */,
+			);
+			path = JsonicYouthTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -84,16 +138,41 @@
 			productReference = F4BE0D771E2E98A700B8F361 /* JsonicYouth.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		F4BE0D8E1E2E9A9200B8F361 /* JsonicYouthTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F4BE0D971E2E9A9200B8F361 /* Build configuration list for PBXNativeTarget "JsonicYouthTests" */;
+			buildPhases = (
+				F4BE0D8B1E2E9A9200B8F361 /* Sources */,
+				F4BE0D8C1E2E9A9200B8F361 /* Frameworks */,
+				F4BE0D8D1E2E9A9200B8F361 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F4BE0D961E2E9A9200B8F361 /* PBXTargetDependency */,
+			);
+			name = JsonicYouthTests;
+			productName = JsonicYouthTests;
+			productReference = F4BE0D8F1E2E9A9200B8F361 /* JsonicYouthTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		F4BE0D6E1E2E98A700B8F361 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0820;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = SKR;
 				TargetAttributes = {
 					F4BE0D761E2E98A700B8F361 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = HLC422N3AR;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+					F4BE0D8E1E2E9A9200B8F361 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = HLC422N3AR;
 						ProvisioningStyle = Automatic;
@@ -113,12 +192,20 @@
 			projectRoot = "";
 			targets = (
 				F4BE0D761E2E98A700B8F361 /* JsonicYouth */,
+				F4BE0D8E1E2E9A9200B8F361 /* JsonicYouthTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		F4BE0D751E2E98A700B8F361 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4BE0D8D1E2E9A9200B8F361 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -132,10 +219,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4BE0D891E2E99F800B8F361 /* JSONError.swift in Sources */,
+				F4BE0D881E2E99F800B8F361 /* JSONLexer.swift in Sources */,
+				F4BE0D871E2E99F800B8F361 /* JSONParser.swift in Sources */,
+				F4BE0D8A1E2E99F800B8F361 /* TextPosition.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F4BE0D8B1E2E9A9200B8F361 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4BE0D9B1E2E9B0D00B8F361 /* JSONLexerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F4BE0D961E2E9A9200B8F361 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F4BE0D761E2E98A700B8F361 /* JsonicYouth */;
+			targetProxy = F4BE0D951E2E9A9200B8F361 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F4BE0D7D1E2E98A700B8F361 /* Debug */ = {
@@ -237,6 +344,30 @@
 		F4BE0D801E2E98A700B8F361 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = HLC422N3AR;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = JsonicYouth/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.helgo.simon.JsonicYouth;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F4BE0D811E2E98A700B8F361 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -253,25 +384,30 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
 			};
-			name = Debug;
+			name = Release;
 		};
-		F4BE0D811E2E98A700B8F361 /* Release */ = {
+		F4BE0D981E2E9A9200B8F361 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = HLC422N3AR;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = JsonicYouth/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.helgo.simon.JsonicYouth;
+				INFOPLIST_FILE = JsonicYouthTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.helgo.simon.JsonicYouthTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F4BE0D991E2E9A9200B8F361 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = HLC422N3AR;
+				INFOPLIST_FILE = JsonicYouthTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = net.helgo.simon.JsonicYouthTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -295,6 +431,16 @@
 				F4BE0D811E2E98A700B8F361 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F4BE0D971E2E9A9200B8F361 /* Build configuration list for PBXNativeTarget "JsonicYouthTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F4BE0D981E2E9A9200B8F361 /* Debug */,
+				F4BE0D991E2E9A9200B8F361 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
