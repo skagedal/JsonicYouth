@@ -28,3 +28,10 @@ public struct TextPosition {
     }
 }
 
+extension TextPosition: Equatable {
+    public static func ==(lhs: TextPosition, rhs: TextPosition) -> Bool {
+        return lhs.totalScalars == rhs.totalScalars &&
+            lhs.rows == rhs.rows &&
+            lhs.scalarsInRow == rhs.scalarsInRow
+    }
+}

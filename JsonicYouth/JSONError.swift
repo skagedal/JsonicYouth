@@ -7,4 +7,5 @@ public enum JSONError: Error {
     case encoding
     case unexpectedEndOfData(TextPosition)
     case unexpectedUnicodeScalar(UnicodeScalar, TextPosition)
+    case unexpectedToken(Token, TextPosition)
 }
