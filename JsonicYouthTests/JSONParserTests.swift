@@ -4,7 +4,7 @@
 //
 
 import XCTest
-import JsonicYouth
+@testable import JsonicYouth
 
 class JSONParserTests: XCTestCase {
     func testNull() {
@@ -25,5 +25,38 @@ class JSONParserTests: XCTestCase {
         } catch {
             XCTFail("shouldn't throw")
         }
+    }
+    
+    func testArray() {
+        do {
+            let j = try JSONParser(string: "[]").parse()
+            if case let JSONElement.array(array) = j.element {
+                XCTAssertEqual(array.values, [])
+                XCTAssertEqual(array.internalWhitespace, "")
+            } else {
+                XCTFail("should return an array")
+            }
+        } catch {
+            XCTFail("shouldn't throw")
+        }
+
+        do {
+            let j = try JSONParser(string: "[true,false,null,1,\"yo\"]").parse()
+            if case let JSONElement.array(array) = j.element {
+                XCTAssertEqual(array.values, [
+                    JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .bool(true)),
+                    JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .bool(false)),
+                    JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .null),
+                    JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .number("1")),
+                    JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .string("\"yo\""))
+                    ])
+                XCTAssertEqual(array.internalWhitespace, "")
+            } else {
+                XCTFail("should return an array")
+            }
+        } catch {
+            XCTFail("shouldn't throw")
+        }
+    
     }
 }

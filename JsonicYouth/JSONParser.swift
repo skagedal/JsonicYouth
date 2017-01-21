@@ -10,15 +10,14 @@ public enum TemporaryError: Error {
 // MARK: Parse tree
 
 public struct JSONValue {
-    public let position: TextPosition
     public let prefixWhitespace: String
     public let postfixWhitespace: String
     public let element: JSONElement
 }
 
 public enum JSONElement {
-    case object([JSONKeyValue])
-    case array([JSONElement])
+    case object(JSONObject)
+    case array(JSONArray)
     case number(String)
     case string(String)
     case bool(Bool)
@@ -26,7 +25,6 @@ public enum JSONElement {
 }
 
 public struct JSONKey {
-    public let position: TextPosition
     public let prefixWhitespace: String
     public let postfixWhitespace: String
     public let key: String
@@ -37,12 +35,21 @@ public struct JSONKeyValue {
     public let value: JSONValue
 }
 
+public struct JSONObject {
+    public let keyValues: [JSONKeyValue]
+    public let internalWhitespace: String
+}
+
+public struct JSONArray {
+    public let values: [JSONValue]
+    public let internalWhitespace: String
+}
+
 // MARK: Equatable
 
 extension JSONValue: Equatable {
     public static func ==(lhs: JSONValue, rhs: JSONValue) -> Bool {
-        return lhs.position == rhs.position &&
-            lhs.prefixWhitespace == rhs.prefixWhitespace &&
+        return lhs.prefixWhitespace == rhs.prefixWhitespace &&
             lhs.postfixWhitespace == rhs.postfixWhitespace &&
             lhs.element == rhs.element
     }
@@ -77,8 +84,7 @@ extension JSONElement: Equatable {
 
 extension JSONKey: Equatable {
     public static func ==(lhs: JSONKey, rhs: JSONKey) -> Bool {
-        return lhs.position == rhs.position &&
-            lhs.prefixWhitespace == rhs.prefixWhitespace &&
+        return lhs.prefixWhitespace == rhs.prefixWhitespace &&
             lhs.postfixWhitespace == rhs.postfixWhitespace &&
             lhs.key == rhs.key
     }
@@ -87,6 +93,20 @@ extension JSONKey: Equatable {
 extension JSONKeyValue: Equatable {
     public static func ==(lhs: JSONKeyValue, rhs: JSONKeyValue) -> Bool {
         return lhs.key == rhs.key && lhs.value == rhs.value
+    }
+}
+
+extension JSONObject: Equatable {
+    public static func ==(lhs: JSONObject, rhs: JSONObject) -> Bool {
+        return lhs.internalWhitespace == rhs.internalWhitespace &&
+            lhs.keyValues == rhs.keyValues
+    }
+}
+
+extension JSONArray: Equatable {
+    public static func ==(lhs: JSONArray, rhs: JSONArray) -> Bool {
+        return lhs.internalWhitespace == rhs.internalWhitespace &&
+            lhs.values == rhs.values
     }
 }
 
@@ -113,8 +133,7 @@ public class JSONParser {
         let prefixWhitespace = try lexer.takeWhitespace()
         let element = try parseElement()
         let postfixWhitespace = try lexer.takeWhitespace()
-        return JSONValue(position: .zero, // TODO: position
-                         prefixWhitespace: prefixWhitespace,
+        return JSONValue(prefixWhitespace: prefixWhitespace,
                          postfixWhitespace: postfixWhitespace,
                          element: element)
     }
@@ -140,21 +159,40 @@ public class JSONParser {
             return .null
             
         case .leftSquareBracket:
-            return try parseArray()
+            return .array(try parseArray())
         
         case .leftCurlyBracket:
-            return try parseObject()
+            return .object(try parseObject())
             
         default:
             throw JSONError.unexpectedToken(token, .zero) // TODO: position
         }
     }
     
-    func parseArray() throws -> JSONElement {
-        throw TemporaryError.notImplemented
+    func parseArray() throws -> JSONArray {
+        let internalWhitespace = try lexer.takeWhitespace()
+        if try lexer.peek() == .rightSquareBracket {
+            let _ = try lexer.next()
+            return JSONArray(values: [], internalWhitespace: internalWhitespace)
+        }
+        var values: [JSONValue] = []
+        var token: Token?
+        repeat {
+            values.append(try parseValue())
+            token = try lexer.next()
+        } while token == .comma
+
+        if let token = token {
+            if token == .rightSquareBracket {
+                return JSONArray(values: values, internalWhitespace: internalWhitespace)
+            }
+            throw JSONError.unexpectedToken(token, .zero) // TODO: position
+        } else {
+            throw JSONError.unexpectedEndOfData(.zero) // TODO: position
+        }
     }
 
-    func parseObject() throws -> JSONElement {
+    func parseObject() throws -> JSONObject {
         throw TemporaryError.notImplemented
     }
     
