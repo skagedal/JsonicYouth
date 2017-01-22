@@ -24,17 +24,6 @@ public enum JSONElement {
     case null
 }
 
-public struct JSONKey {
-    public let prefixWhitespace: String
-    public let postfixWhitespace: String
-    public let key: String
-}
-
-public struct JSONKeyValue {
-    public let key: JSONKey
-    public let value: JSONValue
-}
-
 public struct JSONObject {
     public let keyValues: [JSONKeyValue]
     public let internalWhitespace: String
@@ -43,6 +32,17 @@ public struct JSONObject {
 public struct JSONArray {
     public let values: [JSONValue]
     public let internalWhitespace: String
+}
+
+public struct JSONKeyValue {
+    public let key: JSONKey
+    public let value: JSONValue
+}
+
+public struct JSONKey {
+    public let prefixWhitespace: String
+    public let postfixWhitespace: String
+    public let key: String
 }
 
 // MARK: Equatable

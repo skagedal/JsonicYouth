@@ -78,4 +78,9 @@ class JSONParserTests: XCTestCase {
             XCTFail("shouldn't throw")
         }
     }
+    
+    func testWhitespacePreservation() {
+        let j1 = " [  { \"hello\" : 0,   \"asdf\":  null},   false ]  "
+        XCTAssertEqual(j1, String(describing: try JSONParser(string: j1).parse()))
+    }
 }
