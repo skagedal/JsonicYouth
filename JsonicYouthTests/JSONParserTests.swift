@@ -48,7 +48,7 @@ class JSONParserTests: XCTestCase {
                     JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .bool(false)),
                     JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .null),
                     JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .number("1")),
-                    JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .string("\"yo\""))
+                    JSONValue(prefixWhitespace: "", postfixWhitespace: "", element: .string("yo"))
                     ])
                 XCTAssertEqual(array.internalWhitespace, "")
             } else {
@@ -58,5 +58,24 @@ class JSONParserTests: XCTestCase {
             XCTFail("shouldn't throw")
         }
     
+    }
+    
+    func testObject() {
+        do {
+            let j = try JSONParser(string: "{\"foo\":true,\"bar\":false}").parse()
+            guard case let JSONElement.object(object) = j.element else {
+                return XCTFail("should return an object")
+            }
+            XCTAssertEqual(object.keyValues.count, 2)
+            let foo = object.keyValues[0]
+            XCTAssertEqual(foo.key.key, "foo")
+            XCTAssertEqual(foo.value.element, .bool(true))
+            let bar = object.keyValues[1]
+            XCTAssertEqual(bar.key.key, "bar")
+            XCTAssertEqual(bar.value.element, .bool(false))
+            
+        } catch {
+            XCTFail("shouldn't throw")
+        }
     }
 }

@@ -14,17 +14,17 @@ class JSONLexerTests: XCTestCase {
     }
     
     func testStrings() {
-        assertThat("\"hello\"", scansAs: [.string("\"hello\"")])
+        assertThat("\"hello\"", scansAs: [.string("hello")])
         assertThat("\"hi", failsWithUnexpectedEndAtPosition: 3)
         assertThat("\"\t", failsWithUnexpectedScalar: "\t", atPosition: 1)
-        assertThat("\"\\t\\uabcd\"", scansAs: [.string("\"\\t\\uabcd\"")])
+        assertThat("\"\\t\\uabcd\"", scansAs: [.string("\\t\\uabcd")])
         assertThat("\"\\uax", failsWithUnexpectedScalar: "x", atPosition: 4)
     }
     
     func testWhitespacedString() {
         let lexer = JSONLexer(string: "\t\"hello\"\n")
         XCTAssertEqual(try lexer.next(), Token.whitespace("\t"))
-        XCTAssertEqual(try lexer.next(), Optional.some(Token.string("\"hello\"")))
+        XCTAssertEqual(try lexer.next(), Optional.some(Token.string("hello")))
         XCTAssertEqual(try lexer.next(), Optional.some(Token.whitespace("\n")))
         XCTAssertEqual(try lexer.next(), nil)
     }

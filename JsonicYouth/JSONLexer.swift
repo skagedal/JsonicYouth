@@ -121,6 +121,8 @@ public class JSONLexer {
         return tokenQueue.isEmpty ? nil : tokenQueue.removeFirst()
     }
     
+    public var position = TextPosition.zero
+
     private func parseTokens() throws {
         while tokenQueue.isEmpty && !state.isEnd {
             state = try readAndTransition()
@@ -166,7 +168,6 @@ public class JSONLexer {
     private var tokenQueue: [Token] = []
     private var currentTokenString = ""
     private var state = State.whitespace
-    private var position = TextPosition.zero
     
     private func transition(from state: State, on scalar: UnicodeScalar) -> State {
         let scalarString = String(scalar)
@@ -350,9 +351,8 @@ public class JSONLexer {
     }
     
     private func emitString() {
-        let string = "\"" + currentTokenString + "\""
+        emit(.string(currentTokenString))
         currentTokenString = ""
-        emit(.string(string))
     }
     
     private func emitNumber() {
@@ -395,15 +395,5 @@ private extension UnicodeScalar {
     
     var isControlCharacter: Bool {
         return self < " "
-    }
-}
-
-enum Fille {
-    case Json
-}
-
-extension Fille: Equatable {
-    static func ==(lhs: Fille, rhs: Fille) -> Bool {
-        return true
     }
 }
