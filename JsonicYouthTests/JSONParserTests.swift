@@ -79,6 +79,27 @@ class JSONParserTests: XCTestCase {
         }
     }
     
+    func testStringParser() {
+        do {
+            let s = try JSONParser(string: "\"\"").parse()
+            if let string = s.element.stringValue {
+                XCTAssertEqual(string, "")
+            } else {
+                return XCTFail("should return a string element")
+            }
+            
+            let s2 = try JSONParser(string: "\"hej\\t\\n\\uD83D\\uDC98\"").parse()
+            if let string = s2.element.stringValue {
+                XCTAssertEqual(string, "hej\t\n💘")
+            } else {
+                return XCTFail("should return a string element")
+            }
+            
+        } catch {
+            XCTFail("shouldn't throw")
+        }
+    }
+    
     func testWhitespacePreservation() {
         let j1 = " [  { \"hello\" : 0,   \"asdf\":  null},   false ]  "
         XCTAssertEqual(j1, String(describing: try JSONParser(string: j1).parse()))

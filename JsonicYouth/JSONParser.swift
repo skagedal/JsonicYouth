@@ -276,4 +276,77 @@ class PeekableLexer {
     
     private let lexer: JSONLexer
     private var token: Token?
+
+// MARK: String parsing
+
+extension JSONElement {
+    public var stringValue: String? {
+        switch self {
+        case .string(let unparsedString):
+            return parse(string: unparsedString)
+            
+        default:
+            return nil
+        }
+    }
+    
+    // We assume here that the string is a correctly formed unparsed JSON string, since it will always come from 
+    // the lexer.
+    // We work on UTF-16 characters (unichar) in the outputhere, since JSON only allows 16-bit literals (\uxxxx) and we 
+    // need to join surrogate pairs.
+    func parse(string: String) -> String {
+        var output: [unichar] = []
+        var iterator = string.unicodeScalars.makeIterator()
+        while let scalar = iterator.next() {
+            if scalar == "\\" {
+                output += [parseSpecialCharacter(iterator: &iterator)]
+            } else {
+                output += utf16Array(from: scalar)
+            }
+        }
+        return String(utf16CodeUnits: output, count: output.count)
+    }
+    
+    func utf16Array(from unicodeScalar: UnicodeScalar) -> [unichar] {
+        return Array(String(unicodeScalar).utf16)
+    }
+    
+    func parseSpecialCharacter(iterator: inout String.UnicodeScalarView.Iterator) -> unichar {
+        guard let scalar = iterator.next() else {
+            fatalError("unparsed string not well-formed; non-closed escape sequence")
+        }
+        switch scalar {
+        case "\"":
+            return unichar(0x22)
+        case "\\":
+            return unichar(0x5C)
+        case "/":
+            return unichar(0x2F)
+        case "b":
+            return unichar(0x08)
+        case "f":
+            return unichar(0x0C)
+        case "n":
+            return unichar(0x0A)
+        case "r":
+            return unichar(0x0D)
+        case "t":
+            return unichar(0x09)
+        case "u":
+            return parseUnicodeHexLiteral(iterator: &iterator)
+        default:
+            fatalError("unparsed string not well-formed; unknown escape sequence")
+        }
+    }
+    
+    func parseUnicodeHexLiteral(iterator: inout String.UnicodeScalarView.Iterator) -> unichar {
+        guard let a = iterator.next(), let b = iterator.next(), let c = iterator.next(), let d = iterator.next() else {
+            fatalError("unparsed string not well-formed; \\u not followed by four characters")
+        }
+        let string = "\(a)\(b)\(c)\(d)"
+        guard let integer = Int(string, radix: 16)  else {
+            fatalError("unparsed string not well-formed; \\u not followed by four hex characters")
+        }
+        return unichar(integer)
+    }
 }
