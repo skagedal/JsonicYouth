@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F46923BC1E3BB5700017A4CA /* TextPositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46923BB1E3BB5700017A4CA /* TextPositionTests.swift */; };
 		F4AB66121E35787000ED6379 /* JSONParser+CustomStringConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4AB66111E35787000ED6379 /* JSONParser+CustomStringConvertible.swift */; };
 		F4B92CB71E2E9EA6008D20A6 /* JSONParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B92CB61E2E9EA6008D20A6 /* JSONParserTests.swift */; };
 		F4BE0D7C1E2E98A700B8F361 /* JsonicYouth.h in Headers */ = {isa = PBXBuildFile; fileRef = F4BE0D7A1E2E98A700B8F361 /* JsonicYouth.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F46923BB1E3BB5700017A4CA /* TextPositionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPositionTests.swift; sourceTree = "<group>"; };
 		F4AB66111E35787000ED6379 /* JSONParser+CustomStringConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "JSONParser+CustomStringConvertible.swift"; sourceTree = "<group>"; };
 		F4B92CB61E2E9EA6008D20A6 /* JSONParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONParserTests.swift; sourceTree = "<group>"; };
 		F4BE0D771E2E98A700B8F361 /* JsonicYouth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JsonicYouth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +110,7 @@
 				F4BE0D931E2E9A9200B8F361 /* Info.plist */,
 				F4BE0D9A1E2E9B0D00B8F361 /* JSONLexerTests.swift */,
 				F4B92CB61E2E9EA6008D20A6 /* JSONParserTests.swift */,
+				F46923BB1E3BB5700017A4CA /* TextPositionTests.swift */,
 			);
 			path = JsonicYouthTests;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F46923BC1E3BB5700017A4CA /* TextPositionTests.swift in Sources */,
 				F4B92CB71E2E9EA6008D20A6 /* JSONParserTests.swift in Sources */,
 				F4BE0D9B1E2E9B0D00B8F361 /* JSONLexerTests.swift in Sources */,
 			);

@@ -9,8 +9,8 @@ import JsonicYouth
 class JSONLexerTests: XCTestCase {
     func testWhitespace() {
         let lexer = JSONLexer(string: " ")
-        XCTAssertEqual(try lexer.next(), Token.whitespace(" "))
-        XCTAssertEqual(try lexer.next(), nil)
+        XCTAssertEqual(try lexer.next()?.token, Token.whitespace(" "))
+        XCTAssertEqual(try lexer.next()?.token, nil)
     }
     
     func testStrings() {
@@ -23,10 +23,10 @@ class JSONLexerTests: XCTestCase {
     
     func testWhitespacedString() {
         let lexer = JSONLexer(string: "\t\"hello\"\n")
-        XCTAssertEqual(try lexer.next(), Token.whitespace("\t"))
-        XCTAssertEqual(try lexer.next(), Optional.some(Token.string("hello")))
-        XCTAssertEqual(try lexer.next(), Optional.some(Token.whitespace("\n")))
-        XCTAssertEqual(try lexer.next(), nil)
+        XCTAssertEqual(try lexer.next()?.token, Token.whitespace("\t"))
+        XCTAssertEqual(try lexer.next()?.token, Optional.some(Token.string("hello")))
+        XCTAssertEqual(try lexer.next()?.token, Optional.some(Token.whitespace("\n")))
+        XCTAssertEqual(try lexer.next()?.token, nil)
     }
     
     func testNumbers() {
@@ -48,14 +48,57 @@ class JSONLexerTests: XCTestCase {
         assertThat("fail", failsWithUnexpectedScalar: "i", atPosition: 2)
     }
     
+    func testLexerPosition() {
+        let lexer = JSONLexer(string: "\t\n\"foo\"\n{}null")
+        do {
+            var t = try lexer.next()!
+            XCTAssertEqual(t.token, Token.whitespace("\t\n"))
+            XCTAssertEqual(t.position.rows, 0)
+            XCTAssertEqual(t.position.totalScalars, 0)
+            XCTAssertEqual(t.position.scalarsInRow, 0)
+            t = try lexer.next()!
+            XCTAssertEqual(t.token, Token.string("foo"))
+            XCTAssertEqual(t.position.rows, 1)
+            XCTAssertEqual(t.position.totalScalars, 2)
+            XCTAssertEqual(t.position.scalarsInRow, 0)
+            t = try lexer.next()!
+            XCTAssertEqual(t.token, Token.whitespace("\n"))
+            XCTAssertEqual(t.position.rows, 1)
+            XCTAssertEqual(t.position.totalScalars, 7)
+            XCTAssertEqual(t.position.scalarsInRow, 5)
+            t = try lexer.next()!
+            XCTAssertEqual(t.token, Token.leftCurlyBracket)
+            XCTAssertEqual(t.position.rows, 2)
+            XCTAssertEqual(t.position.totalScalars, 8)
+            XCTAssertEqual(t.position.scalarsInRow, 0)
+            t = try lexer.next()!
+            XCTAssertEqual(t.token, Token.rightCurlyBracket)
+            XCTAssertEqual(t.position.rows, 2)
+            XCTAssertEqual(t.position.totalScalars, 9)
+            XCTAssertEqual(t.position.scalarsInRow, 1)
+            t = try lexer.next()!
+            XCTAssertEqual(t.token, Token.keyword("null"))
+            XCTAssertEqual(t.position.rows, 2)
+            XCTAssertEqual(t.position.totalScalars, 10)
+            XCTAssertEqual(t.position.scalarsInRow, 2)
+
+            XCTAssertNil(try lexer.next())
+            let lastPosition = lexer.positionOfNextToken
+            XCTAssertEqual(lastPosition.rows, 2)
+            // XCTAssertEqual(<#T##expression1: [T : U]##[T : U]#>, <#T##expression2: [T : U]##[T : U]#>)
+        } catch {
+            return XCTFail("shouldn't throw")
+        }
+    }
+    
     // Assertion helpers
     
     func assertThat(_ string: String, scansAs tokens: [Token]) {
         let lexer = JSONLexer(string: string)
         for token in tokens {
-            XCTAssertEqual(try lexer.next(), token)
+            XCTAssertEqual(try lexer.next()?.token, token)
         }
-        XCTAssertEqual(try lexer.next(), nil)
+        XCTAssertEqual(try lexer.next()?.token, nil)
     }
     
     func assertThat(_ string: String, failsWithUnexpectedScalar scalar: UnicodeScalar, atPosition position: Int) {

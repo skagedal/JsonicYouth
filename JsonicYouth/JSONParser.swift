@@ -123,8 +123,8 @@ public class JSONParser {
     
     public func parse() throws -> JSONValue {
         let value = try parseValue()
-        if let extraToken = try lexer.next() {
-            throw JSONError.unexpectedToken(extraToken, .zero) // TODO: position
+        if let token = try lexer.next() {
+            throw JSONError.unexpectedToken(token.token, token.position)
         }
         return value
     }
@@ -141,7 +141,7 @@ public class JSONParser {
     func parseElement() throws -> JSONElement {
         let token = try lexer.forceNext()
         
-        switch token {
+        switch token.token {
         case .string(let stringValue):
             return .string(stringValue)
             
@@ -164,26 +164,26 @@ public class JSONParser {
             return .object(try parseObject())
             
         default:
-            throw JSONError.unexpectedToken(token, .zero) // TODO: position
+            throw JSONError.unexpectedToken(token.token, token.position)
         }
     }
     
     func parseArray() throws -> JSONArray {
         let internalWhitespace = try lexer.takeWhitespace()
-        if try lexer.peek() == .rightSquareBracket {
+        if try lexer.peek()?.token == .rightSquareBracket {
             let _ = try lexer.next()
             return JSONArray(values: [], internalWhitespace: internalWhitespace)
         }
 
         var values: [JSONValue] = []
-        var token: Token
+        var token: PositionedToken
         repeat {
             values.append(try parseValue())
             token = try lexer.forceNext()
-        } while token == .comma
+        } while token.token == .comma
 
-        if token != .rightSquareBracket {
-            throw JSONError.unexpectedToken(token, .zero) // TODO: position
+        if token.token != .rightSquareBracket {
+            throw JSONError.unexpectedToken(token.token, token.position)
         }
         
         return JSONArray(values: values, internalWhitespace: internalWhitespace)
@@ -191,20 +191,20 @@ public class JSONParser {
 
     func parseObject() throws -> JSONObject {
         let internalWhitespace = try lexer.takeWhitespace()
-        if try lexer.peek() == .rightCurlyBracket {
+        if try lexer.peek()?.token == .rightCurlyBracket {
             let _ = try lexer.next()
             return JSONObject(keyValues: [], internalWhitespace: internalWhitespace)
         }
         
         var keyValues: [JSONKeyValue] = []
-        var token: Token
+        var token: PositionedToken
         repeat {
             keyValues.append(try parseKeyValue())
             token = try lexer.forceNext()
-        } while token == .comma
+        } while token.token == .comma
         
-        if token != .rightCurlyBracket {
-            throw JSONError.unexpectedToken(token, .zero) // TODO: position
+        if token.token != .rightCurlyBracket {
+            throw JSONError.unexpectedToken(token.token, token.position)
         }
         
         return JSONObject(keyValues: keyValues, internalWhitespace: internalWhitespace)
@@ -213,8 +213,8 @@ public class JSONParser {
     func parseKeyValue() throws -> JSONKeyValue {
         let key = try parseKey()
         let token = try lexer.forceNext()
-        if token != .colon {
-            throw JSONError.unexpectedToken(token, .zero) // TODO: position
+        if token.token != .colon {
+            throw JSONError.unexpectedToken(token.token, token.position)
         }
         let value = try parseValue()
         return JSONKeyValue(key: key, value: value)
@@ -223,8 +223,8 @@ public class JSONParser {
     func parseKey() throws -> JSONKey {
         let prefixWhitespace = try lexer.takeWhitespace()
         let token = try lexer.forceNext()
-        guard case let .string(key) = token else {
-            throw JSONError.unexpectedToken(token, .zero) // TODO: position
+        guard case let .string(key) = token.token else {
+            throw JSONError.unexpectedToken(token.token, token.position)
         }
         let postfixWhitespace = try lexer.takeWhitespace()
         return JSONKey(prefixWhitespace: prefixWhitespace,
@@ -235,12 +235,14 @@ public class JSONParser {
     private let lexer: PeekableLexer
 }
 
+// MARK: A wrapper around JSONLexer
+
 class PeekableLexer {
     init(_ lexer: JSONLexer) {
         self.lexer = lexer
     }
 
-    func peek() throws -> Token? {
+    func peek() throws -> PositionedToken? {
         if let nextToken = token {
             return nextToken
         } else {
@@ -249,7 +251,7 @@ class PeekableLexer {
         }
     }
     
-    func next() throws -> Token? {
+    func next() throws -> PositionedToken? {
         if let nextToken = token {
             token = nil
             return nextToken
@@ -258,15 +260,15 @@ class PeekableLexer {
         }
     }
 
-    func forceNext() throws -> Token {
+    func forceNext() throws -> PositionedToken {
         guard let token = try next() else {
-            throw JSONError.unexpectedEndOfData(.zero) // TODO: position
+            throw JSONError.unexpectedEndOfData(lexer.positionOfNextToken)
         }
         return token
     }
     
     func takeWhitespace() throws -> String {
-        if let token = try peek(), case let .whitespace(whitespaceString) = token {
+        if let positionedToken = try peek(), case let .whitespace(whitespaceString) = positionedToken.token {
             let _ = try next()
             return whitespaceString
         }
@@ -275,7 +277,8 @@ class PeekableLexer {
     }
     
     private let lexer: JSONLexer
-    private var token: Token?
+    private var token: PositionedToken?
+}
 
 // MARK: String parsing
 

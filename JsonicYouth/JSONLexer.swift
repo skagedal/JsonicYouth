@@ -105,6 +105,11 @@ private extension State {
     }
 }
 
+public struct PositionedToken {
+    public let token: Token
+    public let position: TextPosition
+}
+
 public class JSONLexer {
     public init(iterator: UnicodeScalarIterator) {
         self.iterator = iterator
@@ -114,14 +119,17 @@ public class JSONLexer {
         self.init(iterator: string.unicodeScalars.makeIterator())
     }
     
-    public func next() throws -> Token? {
+    public func next() throws -> PositionedToken? {
         if tokenQueue.isEmpty {
             try parseTokens()
         }
-        return tokenQueue.isEmpty ? nil : tokenQueue.removeFirst()
+        if tokenQueue.isEmpty {
+            return nil
+        } else {
+            return tokenQueue.removeFirst()
+        }
     }
     
-    public var position = TextPosition.zero
 
     private func parseTokens() throws {
         while tokenQueue.isEmpty && !state.isEnd {
@@ -163,9 +171,12 @@ public class JSONLexer {
         return nextState
     }
     
+    public var position = TextPosition.zero
+    
+    public var positionOfNextToken = TextPosition.zero
     
     private var iterator: UnicodeScalarIterator
-    private var tokenQueue: [Token] = []
+    private var tokenQueue: [PositionedToken] = []
     private var currentTokenString = ""
     private var state = State.whitespace
     
@@ -361,7 +372,8 @@ public class JSONLexer {
     }
     
     private func emit(_ token: Token) {
-        tokenQueue += [token]
+        tokenQueue += [PositionedToken(token: token, position: positionOfNextToken)]
+        positionOfNextToken = positionOfNextToken.advanced(by: token)
     }
 }
 
@@ -395,5 +407,23 @@ private extension UnicodeScalar {
     
     var isControlCharacter: Bool {
         return self < " "
+    }
+}
+
+private extension TextPosition {
+    func advanced(by token: Token) -> TextPosition {
+        switch token {
+        case .number(let s), .keyword(let s):
+            return advanced(byNonNewlineScalars: s.unicodeScalars.count)
+        
+        case .string(let s):
+            return advanced(byNonNewlineScalars: s.unicodeScalars.count + 2)
+            
+        case .whitespace(let s):
+            return advanced(by: s)
+            
+        default:
+            return advanced(byNonNewlineScalars: 1)
+        }
     }
 }
