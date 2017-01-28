@@ -1,9 +1,5 @@
 //
-//  JsonicYouth.h
-//  JsonicYouth
-//
-//  Created by Simon Kågedal Reimer on 2017-01-17.
-//  Copyright © 2017 SKR. All rights reserved.
+//  Copyright © 2017 Simon Kågedal Reimer. MIT license; see LICENSE file.
 //
 
 #import <Cocoa/Cocoa.h>

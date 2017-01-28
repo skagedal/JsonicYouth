@@ -1,6 +1,5 @@
 //
-//  Created by Simon Kågedal Reimer on 2017-01-15.
-//  Copyright © 2017 SKR. All rights reserved.
+//  Copyright © 2017 Simon Kågedal Reimer. MIT license; see LICENSE file.
 //
 
 public enum JSONError: Error {
