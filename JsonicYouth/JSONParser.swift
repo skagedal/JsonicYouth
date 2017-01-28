@@ -2,10 +2,6 @@
 //  Copyright © 2017 Simon Kågedal Reimer. MIT license; see LICENSE file.
 //
 
-public enum TemporaryError: Error {
-    case notImplemented
-}
-
 // MARK: Parse tree
 
 public struct JSONValue {
@@ -44,7 +40,7 @@ public struct JSONKey {
     public let key: String
 }
 
-// MARK: Equatable
+// MARK: Equatable parse tree
 
 extension JSONValue: Equatable {
     public static func ==(lhs: JSONValue, rhs: JSONValue) -> Bool {
