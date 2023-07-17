@@ -192,11 +192,11 @@
 			};
 			buildConfigurationList = F4BE0D711E2E98A700B8F361 /* Build configuration list for PBXProject "JsonicYouth" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
+				Base,
 			);
 			mainGroup = F4BE0D6D1E2E98A700B8F361;
 			productRefGroup = F4BE0D781E2E98A700B8F361 /* Products */;
